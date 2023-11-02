@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    [SerializeField] private int width;
-    [SerializeField] private int height;
+     public int width;
+     public int height;
     [SerializeField] GameObject _bgTilePref;
 
     [SerializeField] private Candy[] _candies;
-    [SerializeField] private Candy[,] _allCandies;
+     public Candy[,] _allCandies;
+
+    public float candySpeed;
     private void Start()
     {
         _allCandies = new Candy[width , height];

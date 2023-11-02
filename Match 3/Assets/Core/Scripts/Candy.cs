@@ -6,19 +6,93 @@ public class Candy : MonoBehaviour
 {
     [SerializeField] private Vector2Int posIndex;
     [SerializeField] private Board _board;
+
+    private Vector2 firstTouchPosition;
+    private Vector2 finalTouchPosition;
+
+    private bool _mousePressed;
+    private float _swipeAngle;
+
+    private Candy _otherCandy;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Vector2.Distance(transform.position,posIndex) > .01f)
+        {
+            transform.position = Vector2.Lerp(transform.position, posIndex, _board.candySpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = new Vector3(posIndex.x,posIndex.y,0f);
+            _board._allCandies[posIndex.x, posIndex.y] = this;
+        }
         
+        if (_mousePressed && Input.GetMouseButtonUp(0))
+        {
+            _mousePressed = false;
+            finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            CalculateAngle();
+        }
     }
-    public void SetupCandy(Vector2Int position,Board board)
+    public void SetupCandy(Vector2Int position, Board board)
     {
         posIndex = position;
-        _board = board; 
+        _board = board;
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log("Pressed - " + name);
+        firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // ilk dokunmayi World Pos donustur
+        _mousePressed = true;
+    }
+
+    private void CalculateAngle()
+    {
+        _swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, firstTouchPosition.x - firstTouchPosition.x);
+        _swipeAngle = _swipeAngle * 180 / Mathf.PI;
+        Debug.Log(_swipeAngle);
+
+        if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
+        {
+            MovePieces();
+        }
+    }
+    private void MovePieces()
+    {
+        if (_swipeAngle < 45 && _swipeAngle > -45 && posIndex.x < _board.width - 1)
+        {
+            _otherCandy = _board._allCandies[posIndex.x + 1,posIndex.y];
+            _otherCandy.posIndex.x--;
+            posIndex.x++;
+        }
+        else if (_swipeAngle > 45 && _swipeAngle <= 135 && posIndex.y < _board.height - 1)
+        {
+            _otherCandy = _board._allCandies[posIndex.x , posIndex.y + 1];
+            _otherCandy.posIndex.y--;
+            posIndex.y++;
+        }
+        else if (_swipeAngle < -45 && _swipeAngle >= -135 && posIndex.y > 0)
+        {
+            _otherCandy = _board._allCandies[posIndex.x, posIndex.y - 1];
+            _otherCandy.posIndex.y++;
+            posIndex.y--;
+
+        }
+        else if (_swipeAngle > 135 || _swipeAngle < -135 && posIndex.x > 0)
+        {
+            _otherCandy = _board._allCandies[posIndex.x -1, posIndex.y];
+            _otherCandy.posIndex.x++;
+            posIndex.x--;
+        }
+        _board._allCandies[posIndex.x, posIndex.y] = this;
+        _board._allCandies[_otherCandy.posIndex.x, _otherCandy.posIndex.y] = _otherCandy;
+
     }
 }
+
