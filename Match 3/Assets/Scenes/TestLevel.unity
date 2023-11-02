@@ -247,6 +247,18 @@ MonoBehaviour:
   width: 7
   height: 7
   _bgTilePref: {fileID: 573890351276255344, guid: 7014c530421fdf94aa8a5c8f3f5a1c00, type: 3}
+  _candies:
+  - {fileID: 3763730566823190089, guid: fc00a29c8b9c4f448ad06a2b70f79559, type: 3}
+  - {fileID: 5343923282607552888, guid: 4c507ee36d835ac40b479f4ffd930545, type: 3}
+  - {fileID: -3315750771120445089, guid: 1e1a96e66bafbb240883ce347859229a, type: 3}
+  - {fileID: -1913229261841362483, guid: 887de0fea581b5e48add67f8ae2c437f, type: 3}
+  - {fileID: 6638194319115505500, guid: 993b7ed6dc9489f4a8f2531b968ff56f, type: 3}
+  - {fileID: -1806587688651754990, guid: 2c34d0234ef260c408efc2b423d58f7a, type: 3}
+  - {fileID: -4485829273311019346, guid: 7f72aba67e475c943a5cff7d05d9c4bf, type: 3}
+  - {fileID: -572189663379154979, guid: ebd5095710640c14ab5f2295dcb236a2, type: 3}
+  - {fileID: -7089585812432660645, guid: c7ef4a379fa434b4886aee613e8148b6, type: 3}
+  - {fileID: -6311405142225792600, guid: df634cffd5d6a284dbcb84dd88857d96, type: 3}
+  - {fileID: -2266948517225843456, guid: 71b62d81d76430d4ca134d317e41faef, type: 3}
 --- !u!4 &1343118235
 Transform:
   m_ObjectHideFlags: 0

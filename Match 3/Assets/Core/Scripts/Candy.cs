@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Candy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private Vector2Int posIndex;
+    [SerializeField] private Board _board;
     void Start()
     {
         
@@ -14,5 +15,10 @@ public class Candy : MonoBehaviour
     void Update()
     {
         
+    }
+    public void SetupCandy(Vector2Int position,Board board)
+    {
+        posIndex = position;
+        _board = board; 
     }
 }
