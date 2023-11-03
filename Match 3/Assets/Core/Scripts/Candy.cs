@@ -17,10 +17,12 @@ public class Candy : MonoBehaviour
 
     private Candy _otherCandy;
 
-    public enum CandyType { twister,pink, cookie , triangle, chocolate,waffle,pinkRound,blue,stick, lollipop, bean }
+    public enum CandyType { twister, pink, cookie, triangle, chocolate, waffle, pinkRound, blue, stick, lollipop, bean }
     public CandyType type;
 
     public bool isMatched;
+    [HideInInspector]
+    public Vector2Int previousPosition;
     void Start()
     {
 
@@ -29,16 +31,16 @@ public class Candy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position,posIndex) > .01f)
+        if (Vector2.Distance(transform.position, posIndex) > .01f)
         {
             transform.position = Vector2.Lerp(transform.position, posIndex, _board.candySpeed * Time.deltaTime);
         }
         else
         {
-            transform.position = new Vector3(posIndex.x,posIndex.y,0f);
+            transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
             _board._allCandies[posIndex.x, posIndex.y] = this;
         }
-        
+
         if (_mousePressed && Input.GetMouseButtonUp(0))
         {
             _mousePressed = false;
@@ -72,15 +74,17 @@ public class Candy : MonoBehaviour
     }
     private void MovePieces()
     {
+        previousPosition = posIndex; // nesnenin haraket etmeden onceki konumu
+
         if (_swipeAngle < 45 && _swipeAngle > -45 && posIndex.x < _board.width - 1)
         {
-            _otherCandy = _board._allCandies[posIndex.x + 1,posIndex.y];
+            _otherCandy = _board._allCandies[posIndex.x + 1, posIndex.y];
             _otherCandy.posIndex.x--;
             posIndex.x++;
         }
         else if (_swipeAngle > 45 && _swipeAngle <= 135 && posIndex.y < _board.height - 1)
         {
-            _otherCandy = _board._allCandies[posIndex.x , posIndex.y + 1];
+            _otherCandy = _board._allCandies[posIndex.x, posIndex.y + 1];
             _otherCandy.posIndex.y--;
             posIndex.y++;
         }
@@ -93,13 +97,33 @@ public class Candy : MonoBehaviour
         }
         else if (_swipeAngle > 135 || _swipeAngle < -135 && posIndex.x > 0)
         {
-            _otherCandy = _board._allCandies[posIndex.x -1, posIndex.y];
+            _otherCandy = _board._allCandies[posIndex.x - 1, posIndex.y];
             _otherCandy.posIndex.x++;
             posIndex.x--;
         }
         _board._allCandies[posIndex.x, posIndex.y] = this;
         _board._allCandies[_otherCandy.posIndex.x, _otherCandy.posIndex.y] = _otherCandy;
+        StartCoroutine(CheckMoveCr());
+    }
+    public IEnumerator CheckMoveCr()
+    {
+        yield return new WaitForSeconds(.5f);
+        _board._matchFinder.FindAllMatches();
+        if (_otherCandy != null)
+        {
+            if (!isMatched && !_otherCandy.isMatched)
+            {
+                _otherCandy.posIndex = posIndex;
+                posIndex = previousPosition;
 
+                _board._allCandies[posIndex.x, posIndex.y] = this;
+                _board._allCandies[_otherCandy.posIndex.x, _otherCandy.posIndex.y] = _otherCandy;
+            }
+            else
+            {
+                _board.DestroyMatches();
+            }
+        }
     }
 }
 

@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-     public int width;
-     public int height;
+    public int width;
+    public int height;
     [SerializeField] GameObject _bgTilePref;
 
     [SerializeField] private Candy[] _candies;
-     public Candy[,] _allCandies;
+    public Candy[,] _allCandies;
 
     public float candySpeed;
 
-    [SerializeField] private MatchFinder _matchFinder;
+    public MatchFinder _matchFinder;
     private void Start()
     {
-        _allCandies = new Candy[width , height];
+        _allCandies = new Candy[width, height];
         Setup();
         _matchFinder = FindObjectOfType<MatchFinder>();
     }
@@ -37,18 +37,61 @@ public class Board : MonoBehaviour
                 bgTile.name = "BG Tile -" + x + ", " + y;
 
                 int candyToUse = Random.Range(0, _candies.Length);
+
+                int iterations = 0;
+                while (MatchesAt(new Vector2Int(x, y), _candies[candyToUse]) && iterations < 100)
+                {
+                    candyToUse = Random.Range(0, _candies.Length);
+                    iterations++;                    
+                }
                 SpawnCandy(new Vector2Int(x, y), _candies[candyToUse]);
 
             }
         }
     }
 
-    private void SpawnCandy(Vector2Int spawnPosition,Candy candyToSpawn)
+    private void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn)
     {
-        Candy candy = Instantiate(candyToSpawn, new Vector3(spawnPosition.x,spawnPosition.y,0f), Quaternion.identity);
+        Candy candy = Instantiate(candyToSpawn, new Vector3(spawnPosition.x, spawnPosition.y, 0f), Quaternion.identity);
         candy.transform.parent = this.transform;
         candy.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
         _allCandies[spawnPosition.x, spawnPosition.y] = candy;
         candy.SetupCandy(spawnPosition, this);
+    }
+    private bool MatchesAt(Vector2Int positionToCheck, Candy candyToCheck)
+    {
+        if (positionToCheck.x > 1)
+        {
+            if (_allCandies[positionToCheck.x - 1, positionToCheck.y].type == candyToCheck.type && _allCandies[positionToCheck.x - 2, positionToCheck.y].type == candyToCheck.type)
+                return true;
+        }
+        if (positionToCheck.y > 1)
+        {
+            if (_allCandies[positionToCheck.x, positionToCheck.y - 1].type == candyToCheck.type && _allCandies[positionToCheck.x, positionToCheck.y - 2].type == candyToCheck.type)
+                return true;
+        }
+        return false;
+    }
+    private void DestroyMatchedGemAt(Vector2Int position)
+    {
+        // TODO: Object Pooling
+        if (_allCandies[position.x,position.y] != null)
+        {
+            if (_allCandies[position.x,position.y].isMatched)
+            {
+                Destroy(_allCandies[position.x, position.y].gameObject);
+                _allCandies[position.x, position.y] = null;
+            }
+        }
+    }
+    public void DestroyMatches()
+    {
+        for (int i = 0; i < _matchFinder.currentMatches.Count; i++)
+        {
+            if (_matchFinder.currentMatches[i] != null)
+            {
+                DestroyMatchedGemAt(_matchFinder.currentMatches[i].posIndex);
+            }
+        }
     }
 }
