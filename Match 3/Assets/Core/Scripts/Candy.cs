@@ -44,8 +44,11 @@ public class Candy : MonoBehaviour
         if (_mousePressed && Input.GetMouseButtonUp(0))
         {
             _mousePressed = false;
-            finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            CalculateAngle();
+            if (_board.currentState == Board.BoardState.move)
+            {
+                finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                CalculateAngle();
+            }
         }
     }
     public void SetupCandy(Vector2Int position, Board board)
@@ -56,9 +59,12 @@ public class Candy : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Pressed - " + name);
-        firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // ilk dokunmayi World Pos donustur
-        _mousePressed = true;
+        if (_board.currentState == Board.BoardState.move)
+        {
+            firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // ilk dokunmayi World Pos donustur
+            _mousePressed = true;
+        }
+
     }
 
     private void CalculateAngle()
@@ -107,6 +113,7 @@ public class Candy : MonoBehaviour
     }
     public IEnumerator CheckMoveCr()
     {
+        _board.currentState = Board.BoardState.wait;
         yield return new WaitForSeconds(.5f);
         _board._matchFinder.FindAllMatches();
         if (_otherCandy != null)
@@ -118,6 +125,8 @@ public class Candy : MonoBehaviour
 
                 _board._allCandies[posIndex.x, posIndex.y] = this;
                 _board._allCandies[_otherCandy.posIndex.x, _otherCandy.posIndex.y] = _otherCandy;
+                yield return new WaitForSeconds(.5f);
+                _board.currentState = Board.BoardState.move;
             }
             else
             {
@@ -125,6 +134,6 @@ public class Candy : MonoBehaviour
             }
         }
     }
-  
+
 }
 

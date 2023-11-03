@@ -14,6 +14,9 @@ public class Board : MonoBehaviour
     public float candySpeed;
 
     public MatchFinder _matchFinder;
+
+    public enum BoardState { wait,move}
+    public BoardState currentState = BoardState.move;    
     private void Start()
     {
         _allCandies = new Candy[width, height];
@@ -22,7 +25,7 @@ public class Board : MonoBehaviour
     }
     private void Update()
     {
-        _matchFinder.FindAllMatches();
+        //_matchFinder.FindAllMatches();
     }
     private void Setup()
     {
@@ -130,6 +133,11 @@ public class Board : MonoBehaviour
         {
             yield return new WaitForSeconds(1.5f);
             DestroyMatches();
+        }
+        else
+        {
+            yield return new WaitForSeconds(.5f);
+            currentState = BoardState.move;
         }
     }
     private void RefillBoard()
