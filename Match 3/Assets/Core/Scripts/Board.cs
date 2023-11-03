@@ -93,5 +93,30 @@ public class Board : MonoBehaviour
                 DestroyMatchedGemAt(_matchFinder.currentMatches[i].posIndex);
             }
         }
+        StartCoroutine(DecreaseRowCr());
+    }
+
+    private IEnumerator DecreaseRowCr()
+    {
+        yield return new WaitForSeconds(.25f);
+        int nullCount = 0;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (_allCandies[x,y] == null)
+                {
+                    nullCount++;
+                }
+                else if(nullCount > 0)
+                {
+                    _allCandies[x, y].posIndex.y -= nullCount;
+                    _allCandies[x,y-nullCount] = _allCandies[x,y];
+                    _allCandies[x, y] = null;
+                }
+            }
+            nullCount = 0;
+        }
     }
 }
