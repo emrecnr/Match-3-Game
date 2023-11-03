@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -9,14 +11,15 @@ public class Board : MonoBehaviour
     [SerializeField] GameObject _bgTilePref;
 
     [SerializeField] private Candy[] _candies;
+    [SerializeField] private List<Candy> _candyPool;
     public Candy[,] _allCandies;
 
     public float candySpeed;
 
     public MatchFinder _matchFinder;
 
-    public enum BoardState { wait,move}
-    public BoardState currentState = BoardState.move;    
+    public enum BoardState { wait, move }
+    public BoardState currentState = BoardState.move;
     private void Start()
     {
         _allCandies = new Candy[width, height];
@@ -39,27 +42,31 @@ public class Board : MonoBehaviour
                 bgTile.transform.parent = transform;
                 bgTile.name = "BG Tile -" + x + ", " + y;
 
-                int candyToUse = Random.Range(0, _candies.Length);
+                int candyToUse = Random.Range(0, _candyPool.Count);
 
                 int iterations = 0;
-                while (MatchesAt(new Vector2Int(x, y), _candies[candyToUse]) && iterations < 100)
+                while (MatchesAt(new Vector2Int(x, y), _candyPool[candyToUse]) && iterations < 100)
                 {
-                    candyToUse = Random.Range(0, _candies.Length);
-                    iterations++;                    
+                    candyToUse = Random.Range(0, _candyPool.Count);
+                    iterations++;
                 }
-                SpawnCandy(new Vector2Int(x, y), _candies[candyToUse]);
 
+                SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse]);
             }
         }
     }
 
     private void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn)
     {
-        Candy candy = Instantiate(candyToSpawn, new Vector3(spawnPosition.x, spawnPosition.y + height, 0f), Quaternion.identity);
-        candy.transform.parent = this.transform;
-        candy.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
-        _allCandies[spawnPosition.x, spawnPosition.y] = candy;
-        candy.SetupCandy(spawnPosition, this);
+        if (candyToSpawn != null && _candyPool.Contains(candyToSpawn))
+        {
+            _candyPool.Remove(candyToSpawn);
+            candyToSpawn.transform.position = new Vector3(spawnPosition.x, spawnPosition.y + height, 0f);
+            candyToSpawn.gameObject.SetActive(true);
+            candyToSpawn.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
+            _allCandies[spawnPosition.x, spawnPosition.y] = candyToSpawn;
+            candyToSpawn.SetupCandy(spawnPosition, this);
+        }
     }
     private bool MatchesAt(Vector2Int positionToCheck, Candy candyToCheck)
     {
@@ -78,11 +85,15 @@ public class Board : MonoBehaviour
     private void DestroyMatchedGemAt(Vector2Int position)
     {
         // TODO: Object Pooling
-        if (_allCandies[position.x,position.y] != null)
+        if (_allCandies[position.x, position.y] != null)
         {
-            if (_allCandies[position.x,position.y].isMatched)
+            if (_allCandies[position.x, position.y].isMatched)
             {
-                Destroy(_allCandies[position.x, position.y].gameObject);
+                // Þeker nesnesini havuza geri ekle
+                _candyPool.Add(_allCandies[position.x, position.y]);
+                //Þeker nesnesini devre dýþý býrak
+                _allCandies[position.x, position.y].gameObject.SetActive(false);
+                // _allCandies dizisindeki referansý temizle
                 _allCandies[position.x, position.y] = null;
             }
         }
@@ -108,14 +119,14 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (_allCandies[x,y] == null)
+                if (_allCandies[x, y] == null)
                 {
                     nullCount++;
                 }
-                else if(nullCount > 0)
+                else if (nullCount > 0)
                 {
                     _allCandies[x, y].posIndex.y -= nullCount;
-                    _allCandies[x,y-nullCount] = _allCandies[x,y];
+                    _allCandies[x, y - nullCount] = _allCandies[x, y];
                     _allCandies[x, y] = null;
                 }
             }
@@ -131,7 +142,7 @@ public class Board : MonoBehaviour
         _matchFinder.FindAllMatches();
         if (_matchFinder.currentMatches.Count > 0)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
         else
@@ -146,10 +157,10 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (_allCandies[x,y] == null)
+                if (_allCandies[x, y] == null)
                 {
-                    int candyToUse = Random.Range(0, _candies.Length);
-                    SpawnCandy(new Vector2Int(x, y), _candies[candyToUse]);
+                    int candyToUse = Random.Range(0, _candyPool.Count);
+                    SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse]);
                 }
 
             }
@@ -164,7 +175,7 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (foundCandy.Contains(_allCandies[x,y]))
+                if (foundCandy.Contains(_allCandies[x, y]))
                 {
                     foundCandy.Remove(_allCandies[x, y]);
                 }

@@ -134,6 +134,17 @@ public class Candy : MonoBehaviour
             }
         }
     }
+    //candyToSpawn.transform.position = new Vector3(spawnPosition.x, spawnPosition.y + height, 0f);
+    //candyToSpawn.gameObject.SetActive(true);
+    //candyToSpawn.gameObject.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
+    //_allCandies[spawnPosition.x, spawnPosition.y] = candyToSpawn;
+    //candyToSpawn.SetupCandy(spawnPosition, this);
 
+
+    //Candy candy = Instantiate(candyToSpawn, new Vector3(spawnPosition.x, spawnPosition.y + height, 0f), Quaternion.identity);
+    //candy.transform.parent = this.transform;
+    //candy.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
+    //_allCandies[spawnPosition.x, spawnPosition.y] = candy;
+    //candy.SetupCandy(spawnPosition, this);
 }
 
