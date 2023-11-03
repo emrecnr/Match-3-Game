@@ -12,10 +12,17 @@ public class Board : MonoBehaviour
      public Candy[,] _allCandies;
 
     public float candySpeed;
+
+    [SerializeField] private MatchFinder _matchFinder;
     private void Start()
     {
         _allCandies = new Candy[width , height];
         Setup();
+        _matchFinder = FindObjectOfType<MatchFinder>();
+    }
+    private void Update()
+    {
+        _matchFinder.FindAllMatches();
     }
     private void Setup()
     {

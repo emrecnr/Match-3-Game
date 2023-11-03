@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Candy : MonoBehaviour
 {
-    [SerializeField] private Vector2Int posIndex;
-    [SerializeField] private Board _board;
+    [HideInInspector]
+    public Vector2Int posIndex;
+    [HideInInspector]
+    public Board _board;
 
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
@@ -14,6 +16,11 @@ public class Candy : MonoBehaviour
     private float _swipeAngle;
 
     private Candy _otherCandy;
+
+    public enum CandyType { twister,pink, cookie , triangle, chocolate,waffle,pinkRound,blue,stick, lollipop, bean }
+    public CandyType type;
+
+    public bool isMatched;
     void Start()
     {
 
@@ -54,7 +61,7 @@ public class Candy : MonoBehaviour
 
     private void CalculateAngle()
     {
-        _swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, firstTouchPosition.x - firstTouchPosition.x);
+        _swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
         _swipeAngle = _swipeAngle * 180 / Mathf.PI;
         Debug.Log(_swipeAngle);
 
