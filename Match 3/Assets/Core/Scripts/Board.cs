@@ -52,7 +52,7 @@ public class Board : MonoBehaviour
 
     private void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn)
     {
-        Candy candy = Instantiate(candyToSpawn, new Vector3(spawnPosition.x, spawnPosition.y, 0f), Quaternion.identity);
+        Candy candy = Instantiate(candyToSpawn, new Vector3(spawnPosition.x, spawnPosition.y + height, 0f), Quaternion.identity);
         candy.transform.parent = this.transform;
         candy.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
         _allCandies[spawnPosition.x, spawnPosition.y] = candy;
@@ -98,7 +98,7 @@ public class Board : MonoBehaviour
 
     private IEnumerator DecreaseRowCr()
     {
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(.2f);
         int nullCount = 0;
 
         for (int x = 0; x < width; x++)
@@ -117,6 +117,54 @@ public class Board : MonoBehaviour
                 }
             }
             nullCount = 0;
+        }
+        StartCoroutine(FillBoardCr());
+    }
+    private IEnumerator FillBoardCr()
+    {
+        yield return new WaitForSeconds(.5f);
+        RefillBoard();
+        yield return new WaitForSeconds(.5f);
+        _matchFinder.FindAllMatches();
+        if (_matchFinder.currentMatches.Count > 0)
+        {
+            yield return new WaitForSeconds(1.5f);
+            DestroyMatches();
+        }
+    }
+    private void RefillBoard()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (_allCandies[x,y] == null)
+                {
+                    int candyToUse = Random.Range(0, _candies.Length);
+                    SpawnCandy(new Vector2Int(x, y), _candies[candyToUse]);
+                }
+
+            }
+        }
+        CheckMisplacedGems();
+    }
+    private void CheckMisplacedGems()
+    {
+        List<Candy> foundCandy = new List<Candy>();
+        foundCandy.AddRange(FindObjectsOfType<Candy>());
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (foundCandy.Contains(_allCandies[x,y]))
+                {
+                    foundCandy.Remove(_allCandies[x, y]);
+                }
+            }
+        }
+        foreach (Candy c in foundCandy)
+        {
+            Destroy(c.gameObject);
         }
     }
 }
