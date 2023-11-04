@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class Board : MonoBehaviour
 {
     public int width;
     public int height;
-    [SerializeField] GameObject _bgTilePref;
+    [SerializeField] private List<GameObject> _bgTilePool = new List<GameObject>();
 
     [SerializeField] private Candy[] _candies;
     [SerializeField] private List<Candy> _candyPool;
@@ -26,25 +27,21 @@ public class Board : MonoBehaviour
         Setup();
         _matchFinder = FindObjectOfType<MatchFinder>();
     }
-    private void Update()
-    {
-        //_matchFinder.FindAllMatches();
-    }
+
     private void Setup()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                // TODO: OBJECT POOLING
                 Vector2 pos = new Vector2(x, y);
-                GameObject bgTile = Instantiate(_bgTilePref, pos, Quaternion.identity);
-                bgTile.transform.parent = transform;
-                bgTile.name = "BG Tile -" + x + ", " + y;
+                GameObject bgTile = GetPooledBgTile();
+                SpawnTile(bgTile, pos);
 
                 int candyToUse = Random.Range(0, _candyPool.Count);
-
+                
                 int iterations = 0;
+                
                 while (MatchesAt(new Vector2Int(x, y), _candyPool[candyToUse]) && iterations < 100)
                 {
                     candyToUse = Random.Range(0, _candyPool.Count);
@@ -54,6 +51,19 @@ public class Board : MonoBehaviour
                 SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse]);
             }
         }
+    }
+
+    private GameObject GetPooledBgTile()
+    {
+        // Havuzdan uygun bir bgTile al
+        for (int i = 0; i < _bgTilePool.Count; i++)
+        {
+            if (!_bgTilePool[i].activeInHierarchy)
+            {
+                return _bgTilePool[i];
+            }
+        }
+        return null;
     }
 
     private void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn)
@@ -67,6 +77,12 @@ public class Board : MonoBehaviour
             _allCandies[spawnPosition.x, spawnPosition.y] = candyToSpawn;
             candyToSpawn.SetupCandy(spawnPosition, this);
         }
+    }
+    private void SpawnTile(GameObject tile, Vector2 spawnPosition)
+    {
+        tile.transform.position = spawnPosition;
+        tile.gameObject.SetActive(true);
+        tile.name = "BG Tile -" + spawnPosition.x + ", " + spawnPosition.y;
     }
     private bool MatchesAt(Vector2Int positionToCheck, Candy candyToCheck)
     {
