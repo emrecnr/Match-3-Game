@@ -33,7 +33,7 @@ public class Board : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown("Space"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             ShuffleBoard();
             print("s");
@@ -290,6 +290,7 @@ public class Board : MonoBehaviour
                     candysFromBoard.RemoveAt(candyToUse);
                 }
             }
+            StartCoroutine(FillBoardCr());
         }
     }
 }
