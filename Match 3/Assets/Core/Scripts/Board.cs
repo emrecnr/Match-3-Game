@@ -20,6 +20,7 @@ public class Board : MonoBehaviour
     public float candySpeed;
 
     public MatchFinder _matchFinder;
+    [SerializeField] private RoundManager _roundManager;
 
     public enum BoardState { wait, move }
     public BoardState currentState = BoardState.move;
@@ -168,6 +169,7 @@ public class Board : MonoBehaviour
         {
             if (_matchFinder.currentMatches[i] != null)
             {
+                ScoreCheck(_matchFinder.currentMatches[i]);
                 DestroyMatchedGemAt(_matchFinder.currentMatches[i].posIndex);
             }
         }
@@ -292,5 +294,9 @@ public class Board : MonoBehaviour
             }
             StartCoroutine(FillBoardCr());
         }
+    }
+    public void ScoreCheck(Candy candyToCheck)
+    {
+        _roundManager._currentScore += candyToCheck.scoreValue;
     }
 }

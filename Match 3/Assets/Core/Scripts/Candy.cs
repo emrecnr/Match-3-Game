@@ -23,6 +23,7 @@ public class Candy : MonoBehaviour
     private float _swipeAngle;
     public List<GameObject> _destroyEffectList = new List<GameObject>();
     public int blastSize = 1;
+    public int scoreValue = 10;
 
 
     public bool isMatched;
@@ -44,7 +45,7 @@ public class Candy : MonoBehaviour
             _board._allCandies[posIndex.x, posIndex.y] = this;
         }
 
-        if (_mousePressed && Input.GetMouseButtonUp(0))
+        if (_mousePressed && Input.GetMouseButtonUp(0) &&!RoundManager.isGameOver)
         {
             _mousePressed = false;
             if (_board.currentState == Board.BoardState.move)
@@ -62,7 +63,7 @@ public class Candy : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (_board.currentState == Board.BoardState.move)
+        if (_board.currentState == Board.BoardState.move && !RoundManager.isGameOver)
         {
             firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // ilk dokunmayi World Pos donustur
             _mousePressed = true;
