@@ -4,25 +4,28 @@ using UnityEngine;
 
 public class Candy : MonoBehaviour
 {
+    public enum CandyType { twister, pink, cookie, triangle, chocolate, waffle, pinkRound, blue, stick, lollipop, bean ,bomb}
+    public CandyType type;
+
     [HideInInspector]
     public Vector2Int posIndex;
     [HideInInspector]
     public Board _board;
+    [HideInInspector]
+    public Vector2Int previousPosition;
+    
+    private Candy _otherCandy;
 
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
 
     private bool _mousePressed;
     private float _swipeAngle;
+    public List<GameObject> _destroyEffectList = new List<GameObject>();
+    public int blastSize = 1;
 
-    private Candy _otherCandy;
-
-    public enum CandyType { twister, pink, cookie, triangle, chocolate, waffle, pinkRound, blue, stick, lollipop, bean }
-    public CandyType type;
 
     public bool isMatched;
-    [HideInInspector]
-    public Vector2Int previousPosition;
     void Start()
     {
 

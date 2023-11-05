@@ -68,6 +68,75 @@ public class MatchFinder : MonoBehaviour
         {
             currentMatches = currentMatches.Distinct().ToList();
         }
+        CheckForBombs();
+    }
+    public void CheckForBombs()
+    {
+        for (int i = 0; i < currentMatches.Count; i++)
+        {
+            Candy candy = currentMatches[i];
+
+            int x = candy.posIndex.x;
+            int y = candy.posIndex.y;
+            if (candy.posIndex.x >0)
+            {
+                if (_board._allCandies[x-1 , y] !=null)
+                {
+                    if (_board._allCandies[x-1,y].type == Candy.CandyType.bomb)
+                    {
+                        MarkBombArea(new Vector2Int(x - 1, y), _board._allCandies[x-1,y]);
+                    }
+                }
+            }
+            if (candy.posIndex.x < _board.width - 1)
+            {
+                if (_board._allCandies[x + 1, y] != null)
+                {
+                    if (_board._allCandies[x + 1, y].type == Candy.CandyType.bomb)
+                    {
+                        MarkBombArea(new Vector2Int(x + 1, y), _board._allCandies[x + 1, y]);
+                    }
+                }
+            }
+            if (candy.posIndex.y > 0)
+            {
+                if (_board._allCandies[x, y -1] != null)
+                {
+                    if (_board._allCandies[x , y - 1].type == Candy.CandyType.bomb)
+                    {
+                        MarkBombArea(new Vector2Int(x , y - 1), _board._allCandies[x, y - 1]);
+                    }
+                }
+            }
+            if (candy.posIndex.y < _board.height - 1)
+            {
+                if (_board._allCandies[x, y + 1] != null)
+                {
+                    if (_board._allCandies[x, y + 1].type == Candy.CandyType.bomb)
+                    {
+                        MarkBombArea(new Vector2Int(x, y + 1), _board._allCandies[x, y + 1]);
+                    }
+                }
+            }
+        }
+    }
+    public void MarkBombArea(Vector2Int bombPosition, Candy theBomb)
+    {
+        for (int x =bombPosition.x - theBomb.blastSize; x <= bombPosition.x + theBomb.blastSize; x++)
+        {
+            for (int y = bombPosition.y-theBomb.blastSize; y <= bombPosition.y + theBomb.blastSize; y++)
+            {
+                if (x >= 0 && x < _board.width && y>=0 && y<_board.height)
+                {
+                    if (_board._allCandies[x,y] != null)
+                    {
+                        _board._allCandies[x, y].isMatched = true;
+                        currentMatches.Add(_board._allCandies[x, y]);
+                    }
+                }
+            }
+        }
+        currentMatches = currentMatches.Distinct().ToList();
     }
 }
 

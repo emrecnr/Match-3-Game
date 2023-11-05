@@ -4,6 +4,7 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
+using UnityEngine.UIElements;
 
 public class Board : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Board : MonoBehaviour
 
     [SerializeField] private Candy[] _candies;
     [SerializeField] private List<Candy> _candyPool;
+    [SerializeField] private List<Candy> _bombPool;
     public Candy[,] _allCandies;
 
     public float candySpeed;
@@ -21,13 +23,22 @@ public class Board : MonoBehaviour
 
     public enum BoardState { wait, move }
     public BoardState currentState = BoardState.move;
+    public Candy _bomb;
+    public float bombChance = 2f;
     private void Start()
     {
         _allCandies = new Candy[width, height];
         Setup();
         _matchFinder = FindObjectOfType<MatchFinder>();
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown("Space"))
+        {
+            ShuffleBoard();
+            print("s");
+        }
+    }
     private void Setup()
     {
         for (int x = 0; x < width; x++)
@@ -37,22 +48,55 @@ public class Board : MonoBehaviour
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = GetPooledBgTile();
                 SpawnTile(bgTile, pos);
+                int candyToUse = Random.Range(0, _candyPool.Count);//
 
-                int candyToUse = Random.Range(0, _candyPool.Count);
-                
+
                 int iterations = 0;
-                
+
                 while (MatchesAt(new Vector2Int(x, y), _candyPool[candyToUse]) && iterations < 100)
                 {
                     candyToUse = Random.Range(0, _candyPool.Count);
                     iterations++;
                 }
 
-                SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse]);
+
+                if (Random.Range(0, 100f) < bombChance)
+                {
+                    int bombToUse = Random.Range(0, _bombPool.Count);
+                    SpawnCandy(new Vector2Int(x, y), _bombPool[bombToUse], true);
+                }
+                else
+                {
+
+                    SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse], false);
+                }
             }
         }
     }
 
+
+
+    private void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn, bool isBomb = false)
+    {
+        if (isBomb)
+        {
+            _bombPool.Remove(candyToSpawn);
+            candyToSpawn.name = "Bomb - " + spawnPosition.x + ", " + spawnPosition.y;
+        }
+
+        else
+        {
+            if (candyToSpawn != null && _candyPool.Contains(candyToSpawn))
+            {
+                _candyPool.Remove(candyToSpawn);
+                candyToSpawn.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
+            }
+        }
+        candyToSpawn.transform.position = new Vector3(spawnPosition.x, spawnPosition.y + height, 0f);
+        candyToSpawn.gameObject.SetActive(true);
+        _allCandies[spawnPosition.x, spawnPosition.y] = candyToSpawn;
+        candyToSpawn.SetupCandy(spawnPosition, this);
+    }
     private GameObject GetPooledBgTile()
     {
         // Havuzdan uygun bir bgTile al
@@ -65,18 +109,16 @@ public class Board : MonoBehaviour
         }
         return null;
     }
-
-    private void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn)
+    private GameObject GetPooledDestroyEffect(Vector2Int position)
     {
-        if (candyToSpawn != null && _candyPool.Contains(candyToSpawn))
+        for (int i = 0; i < _matchFinder.currentMatches.Count; i++)
         {
-            _candyPool.Remove(candyToSpawn);
-            candyToSpawn.transform.position = new Vector3(spawnPosition.x, spawnPosition.y + height, 0f);
-            candyToSpawn.gameObject.SetActive(true);
-            candyToSpawn.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
-            _allCandies[spawnPosition.x, spawnPosition.y] = candyToSpawn;
-            candyToSpawn.SetupCandy(spawnPosition, this);
+            if (!_allCandies[position.x, position.y]._destroyEffectList[i].activeInHierarchy)
+            {
+                return _allCandies[position.x, position.y]._destroyEffectList[i];
+            }
         }
+        return null;
     }
     private void SpawnTile(GameObject tile, Vector2 spawnPosition)
     {
@@ -100,17 +142,23 @@ public class Board : MonoBehaviour
     }
     private void DestroyMatchedGemAt(Vector2Int position)
     {
-        // TODO: Object Pooling
         if (_allCandies[position.x, position.y] != null)
         {
             if (_allCandies[position.x, position.y].isMatched)
             {
+                GameObject effect = GetPooledDestroyEffect(position);
+                if (effect != null)
+                {
+                    effect.transform.position = new Vector3(position.x, position.y, 0);
+                    effect.SetActive(true);
+                    _candyPool.Add(_allCandies[position.x, position.y]);
+                    //Þeker nesnesini devre dýþý býrak
+                    _allCandies[position.x, position.y].gameObject.SetActive(false);
+                    // _allCandies dizisindeki referansý temizle
+                    _allCandies[position.x, position.y] = null;
+                }
                 // Þeker nesnesini havuza geri ekle
-                _candyPool.Add(_allCandies[position.x, position.y]);
-                //Þeker nesnesini devre dýþý býrak
-                _allCandies[position.x, position.y].gameObject.SetActive(false);
-                // _allCandies dizisindeki referansý temizle
-                _allCandies[position.x, position.y] = null;
+
             }
         }
     }
@@ -175,8 +223,17 @@ public class Board : MonoBehaviour
             {
                 if (_allCandies[x, y] == null)
                 {
-                    int candyToUse = Random.Range(0, _candyPool.Count);
-                    SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse]);
+
+                    if (Random.Range(0, 100f) < bombChance)
+                    {
+                        int bombToUse = Random.Range(0, _bombPool.Count);//
+                        SpawnCandy(new Vector2Int(x, y), _bombPool[bombToUse], true);
+                    }
+                    else
+                    {
+                        int candyToUse = Random.Range(0, _candyPool.Count);
+                        SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse], false);
+                    }
                 }
 
             }
@@ -200,6 +257,39 @@ public class Board : MonoBehaviour
         foreach (Candy c in foundCandy)
         {
             Destroy(c.gameObject);
+        }
+    }
+
+    public void ShuffleBoard()
+    {
+        if (currentState != BoardState.wait)
+        {
+            currentState = BoardState.wait;
+            List<Candy> candysFromBoard = new List<Candy>();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    candysFromBoard.Add(_allCandies[x, y]);
+                    _allCandies[x, y] = null;
+                }
+            }
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    int candyToUse = Random.Range(0, candysFromBoard.Count);
+                    int iterations = 0;
+                    while (MatchesAt(new Vector2Int(x, y), candysFromBoard[candyToUse]) && iterations < 100 && candysFromBoard.Count > 1)
+                    {
+                        candyToUse = Random.Range(0, candysFromBoard.Count);
+                        iterations++;
+                    }
+                    candysFromBoard[candyToUse].SetupCandy(new Vector2Int(x, y), this);
+                    _allCandies[x, y] = candysFromBoard[candyToUse];
+                    candysFromBoard.RemoveAt(candyToUse);
+                }
+            }
         }
     }
 }
