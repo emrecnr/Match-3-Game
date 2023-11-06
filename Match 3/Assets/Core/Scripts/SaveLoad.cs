@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveLoad : MonoBehaviour
+public class SaveLoad 
 {
     public void SaveString(string key, string value)
     {
