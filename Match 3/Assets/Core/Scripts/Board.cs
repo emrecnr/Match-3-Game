@@ -171,6 +171,7 @@ public class Board : MonoBehaviour
             {
                 ScoreCheck(_matchFinder.currentMatches[i]);
                 DestroyMatchedGemAt(_matchFinder.currentMatches[i].posIndex);
+                _roundManager.CheckGoal(_matchFinder.currentMatches.Count, _matchFinder.currentMatches[i].type);
             }
         }
         StartCoroutine(DecreaseRowCr());
