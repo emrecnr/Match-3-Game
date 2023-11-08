@@ -7,28 +7,41 @@ using static Candy;
 
 public class RoundManager : MonoBehaviour
 {
+    private SaveLoad _saveLoadSystem = new SaveLoad();
+
     [Header("--- LEVEL SETTINGS ---")]
     [SerializeField] private float roundTime = 60f;
+    [SerializeField] private int roundMove = 10;
     [SerializeField] private int _scoreToFirstStar;
     [SerializeField] private int _scoreToSecondStar;
     [SerializeField] private int _scoreToThirdStar;
-
     public int _currentScore;
+    // PROP
+    public int RoundMove { get { return roundMove; } set { roundMove = value; } }
+    public int ScoreToFirstStar { get { return _scoreToFirstStar; } set { _scoreToFirstStar = value; } }
+    public int ScoreToSecondStar { get { return _scoreToSecondStar; } set { _scoreToSecondStar = value; } }
+    public int ScoreToThirdStar { get { return _scoreToThirdStar; } set { _scoreToThirdStar = value; } }
+
     [SerializeField]private UIManager _uiManager;
 
     public static bool isGameOver = false;
 
-    private SaveLoad _saveLoadSystem = new SaveLoad();
+    
+
     [Header("--- GOALS PROCESS --- ")]    
     [SerializeField]private List<Goals> _goalsList = new List<Goals>();
     [SerializeField]private List<Goals_UI> _goalsUIList = new List<Goals_UI>();
     [SerializeField] private int _goalCount;
     [SerializeField] private int _goalValue;
     private bool _targetReached = false;
+    private bool hasGameOverBeenChecked = false;
 
     private void Start()
     {
         StartGoalProcesses();
+        StartGeneralProcess();
+
+
     }
     private void Update()
     {
@@ -45,15 +58,27 @@ public class RoundManager : MonoBehaviour
         int seconds = Mathf.FloorToInt(roundTime % 60);
         _uiManager.timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         _uiManager.scoreText.text = _currentScore.ToString();
-        if (isGameOver)
+        if (isGameOver && !hasGameOverBeenChecked)
         {
             WinCheck(_currentScore);
+            hasGameOverBeenChecked=true;
         }
     }
-
+    private void StartGeneralProcess()
+    {
+        _uiManager.scoreSlider.maxValue = _scoreToThirdStar;
+        _uiManager.moveCountText.text = roundMove.ToString();
+    }
     private void WinCheck(int scoreValue)
     {
+
         //_uiManager.completedPanel.SetActive(true);
+                              
+        if (SceneManager.GetActiveScene().buildIndex == _saveLoadSystem.LoadInteger("Last Level"))
+        {
+            _saveLoadSystem.SaveInteger("Last Level", _saveLoadSystem.LoadInteger("Last Level") + 1);
+        }
+        
 
         if (scoreValue >= _scoreToThirdStar)
         {
@@ -107,4 +132,5 @@ public class RoundManager : MonoBehaviour
             }
         }
     }
+    
 }

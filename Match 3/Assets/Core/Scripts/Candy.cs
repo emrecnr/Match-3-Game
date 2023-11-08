@@ -7,6 +7,7 @@ public class Candy : MonoBehaviour
     public enum CandyType { twister, pink, cookie, triangle, chocolate, waffle, pinkRound, blue, stick, lollipop, bean ,bomb}
     public CandyType type;
 
+    
     [HideInInspector]
     public Vector2Int posIndex;
     [HideInInspector]
@@ -27,10 +28,7 @@ public class Candy : MonoBehaviour
 
 
     public bool isMatched;
-    void Start()
-    {
-
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -80,6 +78,7 @@ public class Candy : MonoBehaviour
         if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
         {
             MovePieces();
+            
         }
     }
     private void MovePieces()
@@ -135,20 +134,11 @@ public class Candy : MonoBehaviour
             else
             {
                 _board.DestroyMatches();
+                // Kaydýrma hakký azaltma 
+                _board.DecreaseMove();
             }
         }
     }
-    //candyToSpawn.transform.position = new Vector3(spawnPosition.x, spawnPosition.y + height, 0f);
-    //candyToSpawn.gameObject.SetActive(true);
-    //candyToSpawn.gameObject.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
-    //_allCandies[spawnPosition.x, spawnPosition.y] = candyToSpawn;
-    //candyToSpawn.SetupCandy(spawnPosition, this);
-
-
-    //Candy candy = Instantiate(candyToSpawn, new Vector3(spawnPosition.x, spawnPosition.y + height, 0f), Quaternion.identity);
-    //candy.transform.parent = this.transform;
-    //candy.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
-    //_allCandies[spawnPosition.x, spawnPosition.y] = candy;
-    //candy.SetupCandy(spawnPosition, this);
+    
 }
 

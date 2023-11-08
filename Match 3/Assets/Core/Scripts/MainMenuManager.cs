@@ -6,10 +6,16 @@ using UnityEngine.SceneManagement;
 public class MainMenuManager : MonoBehaviour
 {
     //[SerializeField] private string levelToLoad;
+    private SaveLoad _saveLoad = new SaveLoad();
 
+    private void Start()
+    {
+        _saveLoad.CheckSet();
+    }
     public void StartGame(string levelToLoad)
     {
-        SceneManager.LoadScene(levelToLoad);
+        int sceneIndex = _saveLoad.LoadInteger("Last Level");
+        SceneManager.LoadScene(sceneIndex);
     }
     public void QuitGame()
     {

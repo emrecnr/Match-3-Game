@@ -138,5 +138,6 @@ public class MatchFinder : MonoBehaviour
         }
         currentMatches = currentMatches.Distinct().ToList();
     }
+    
 }
 

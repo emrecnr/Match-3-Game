@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveLoad 
@@ -31,5 +32,14 @@ public class SaveLoad
     public float LoadFloat(string key)
     {
         return PlayerPrefs.GetFloat(key);
+    }
+
+    public void CheckSet()
+    {
+        if (!PlayerPrefs.HasKey("Last Level"))
+        {
+            PlayerPrefs.SetInt("Last Level", 2);
+            
+        }
     }
 }

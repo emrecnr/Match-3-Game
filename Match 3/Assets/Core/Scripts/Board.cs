@@ -21,6 +21,7 @@ public class Board : MonoBehaviour
 
     public MatchFinder _matchFinder;
     [SerializeField] private RoundManager _roundManager;
+    [SerializeField] private UIManager _uiManager;
 
     public enum BoardState { wait, move }
     public BoardState currentState = BoardState.move;
@@ -34,11 +35,8 @@ public class Board : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShuffleBoard();
-            print("s");
-        }
+        // TODO: Shuffle butona baðlanacak bu if bloðu kaldýrýlacak
+        
     }
     private void Setup()
     {
@@ -299,5 +297,27 @@ public class Board : MonoBehaviour
     public void ScoreCheck(Candy candyToCheck)
     {
         _roundManager._currentScore += candyToCheck.scoreValue;
+        _uiManager.scoreSlider.value = _roundManager._currentScore;
+        if (_uiManager.scoreSlider.value >= _roundManager.ScoreToFirstStar)
+        {
+            _uiManager.levelStars[0].SetActive(true);
+        }
+        if (_uiManager.scoreSlider.value >= _roundManager.ScoreToSecondStar)
+        {
+            _uiManager.levelStars[1].SetActive(true);
+        }
+        if (_uiManager.scoreSlider.value >= _roundManager.ScoreToThirdStar)
+        {
+            _uiManager.levelStars[2].SetActive(true);
+        }
+
+    }
+    public void DecreaseMove()
+    {
+        if (_roundManager.RoundMove > 0)
+        {
+            _roundManager.RoundMove--;
+            _uiManager.moveCountText.text = _roundManager.RoundMove.ToString();
+        }
     }
 }
