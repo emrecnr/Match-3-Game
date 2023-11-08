@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     [Header("--- SCORES PROCESS")]
     public Slider scoreSlider;
     public GameObject[] levelStars;
-
+    public Sprite levelStarsComplete;
 
 
 }

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
@@ -300,15 +299,15 @@ public class Board : MonoBehaviour
         _uiManager.scoreSlider.value = _roundManager._currentScore;
         if (_uiManager.scoreSlider.value >= _roundManager.ScoreToFirstStar)
         {
-            _uiManager.levelStars[0].SetActive(true);
+            _uiManager.levelStars[0].GetComponent<Image>().sprite = _uiManager.levelStarsComplete;
         }
         if (_uiManager.scoreSlider.value >= _roundManager.ScoreToSecondStar)
         {
-            _uiManager.levelStars[1].SetActive(true);
+            _uiManager.levelStars[1].GetComponent<Image>().sprite = _uiManager.levelStarsComplete;
         }
         if (_uiManager.scoreSlider.value >= _roundManager.ScoreToThirdStar)
         {
-            _uiManager.levelStars[2].SetActive(true);
+            _uiManager.levelStars[2].GetComponent<Image>().sprite = _uiManager.levelStarsComplete;
         }
 
     }
