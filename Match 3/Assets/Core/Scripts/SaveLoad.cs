@@ -39,6 +39,7 @@ public class SaveLoad
         if (!PlayerPrefs.HasKey("Last Level"))
         {
             PlayerPrefs.SetInt("Last Level", 2);
+            PlayerPrefs.SetInt("Coin", 0);
             
         }
     }

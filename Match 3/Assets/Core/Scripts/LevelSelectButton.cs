@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectButton : MonoBehaviour
 {
+    [SerializeField] private GameObject _levelGoalInfoPanel;
     [SerializeField] private string levelToLoad;
 
     [SerializeField] GameObject[] stars;
 
     private SaveLoad _saveLoad = new SaveLoad();
+   
     void Start()
     {
         for (int i = 0; i < stars.Length; i++)
@@ -38,4 +40,5 @@ public class LevelSelectButton : MonoBehaviour
     {
         SceneManager.LoadScene(levelToLoad);
     }
+    
 }
