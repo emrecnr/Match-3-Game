@@ -1156,7 +1156,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1009702396}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: ButtonProcess
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Scores Menu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1009702396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1280,14 +1292,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 200129199}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: ButtonProcess
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Level 1
+          m_StringArgument: Start Game
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1049231913
@@ -1410,7 +1422,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1131173403}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: ButtonProcess
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Boosters Menu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1131173403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2298,7 +2322,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1424043266}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: ButtonProcess
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Shop Menu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1424043266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2524,7 +2560,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1479389038}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: ButtonProcess
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Profile Menu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1479389038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3096,7 +3144,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1875035731}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: ButtonProcess
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Prize Wheel
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1875035731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3354,14 +3414,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 200129199}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: GoToMapMenu
+        m_MethodName: ButtonProcess
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Level Select
+          m_StringArgument: Level Select Menu
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2026041159
@@ -3484,7 +3544,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2051981764}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: ButtonProcess
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Remove Ads
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2051981764
 MonoBehaviour:
   m_ObjectHideFlags: 0

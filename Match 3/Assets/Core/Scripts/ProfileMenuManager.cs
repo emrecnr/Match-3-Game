@@ -42,9 +42,9 @@ public class ProfileMenuManager : MonoBehaviour
         switch (button)
         {
             case "Save":
-                //Save();
+                Save();
                 break;
-            case "Main Menu":
+            case "Cancel":
                 SceneManager.LoadScene(_mainMenu);
                 break;
             case "Sound":
@@ -69,13 +69,14 @@ public class ProfileMenuManager : MonoBehaviour
     }
 
 
-    public void Save()
+    private void Save()
     {
         _saveLoad.SaveFloat("Sound", _volumes[0]);
         _saveLoad.SaveFloat("Music", _volumes[1]);
         Debug.Log("Saved!");
         _buttonAudio.volume = _saveLoad.LoadFloat("Audio");
     }
+    
 
 
 

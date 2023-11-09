@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    //[SerializeField] private string levelToLoad;
     private SaveLoad _saveLoad = new SaveLoad();
     [SerializeField] private TMP_Text _healthText;
 
@@ -14,11 +13,12 @@ public class MainMenuManager : MonoBehaviour
     {
         _saveLoad.CheckSet();
         _healthText.text = _saveLoad.LoadInteger("Coin").ToString();
+       
     }
     public void StartGame(string levelToLoad)
     {
-        int sceneIndex = _saveLoad.LoadInteger("Last Level");
-        SceneManager.LoadScene(sceneIndex);
+
+
     }
     public void QuitGame()
     {
@@ -28,4 +28,29 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene(levelToLoad);
     }
+    public void GoToProfileMenu(string levelToLoad)
+    {
+
+    }
+    public void ButtonProcess(string value)
+    {
+        switch (value)
+        {
+            case "Start Game":
+                int sceneIndex = _saveLoad.LoadInteger("Last Level");
+                SceneManager.LoadScene(sceneIndex);
+                break;
+            case "Level Select Menu":
+            case "Profile Menu":
+            case "Prize Wheel":
+            case "Boosters Menu":
+            case "Scores Menu":
+                SceneManager.LoadScene(value);
+                break;            
+
+        }
+    }
 }
+
+
+
