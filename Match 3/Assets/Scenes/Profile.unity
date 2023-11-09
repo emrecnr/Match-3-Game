@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 200129198}
   - component: {fileID: 200129199}
   m_Layer: 0
-  m_Name: '[LEVEL MANAGER]'
+  m_Name: '[PROFILE MANAGER]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,54 +241,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 200129197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ba910074fb5c64587c0ec56a9e9978, type: 3}
+  m_Script: {fileID: 11500000, guid: 940a1cbfacf0d0f489302ed8b600f221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: Main Menu
-  _levelToLoad: 
-  _buttons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _passiveLevel: {fileID: 21300000, guid: daea76e61dac76e43ac8bddb2e76e9aa, type: 3}
-  _currentLevel: {fileID: 21300000, guid: 326fb1d1d9eb9ce4b8c3f8658e48afa6, type: 3}
-  _completedLevel: {fileID: 21300000, guid: e1da10e47af821a43814d71620c2c36c, type: 3}
-  _infoPanel: {fileID: 653152869}
-  _infoPanelImg:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  levelGoalInfo:
-  - whichLevel: Level 1
-    _goals: 2
-    _goalValue: 0500000003000000
-    _goalSprite:
-    - {fileID: 21300000, guid: b84a951d423ac2e45965b4a0f63574dc, type: 3}
-    - {fileID: 21300000, guid: fb922273ed3a170458ead0dda1e782f4, type: 3}
-  - whichLevel: Level 2
-    _goals: 3
-    _goalValue: 01000000050000000b000000
-    _goalSprite:
-    - {fileID: 21300000, guid: 3d658007b31c6464da802023f739acd6, type: 3}
-    - {fileID: 21300000, guid: fc59f6e7b57802440ab83e22ef93b19e, type: 3}
-    - {fileID: 21300000, guid: 56a8dc9441042aa46bc7cfe7e0099583, type: 3}
-  - whichLevel: Level  3
-    _goals: 0
-    _goalValue: 
-    _goalSprite: []
+  _buttonAudio: {fileID: 560796596}
+  _panelButtons:
+  - {fileID: 1194622656}
+  - {fileID: 1628376053}
+  _onOffSprites:
+  - {fileID: 21300000, guid: dd4d9c6cf819d004eb7f2217ee0feb74, type: 3}
+  - {fileID: 21300000, guid: 5a367663559ce8d498c91ae73c4ac9b7, type: 3}
 --- !u!1 &482543262
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,6 +679,134 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 530406886}
   m_CullTransparentMesh: 1
+--- !u!1 &560796593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 560796594}
+  - component: {fileID: 560796596}
+  m_Layer: 0
+  m_Name: '[AUDIO MANAGER]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &560796594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560796593}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &560796596
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560796593}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 158723e36232f644cb6ccc644f24a49c, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &653152869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,7 +1119,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1194622656}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: ProfileMenuManager, Assembly-CSharp
+        m_MethodName: PanelButtons
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Sound
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1194622656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,7 +1152,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5a367663559ce8d498c91ae73c4ac9b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd4d9c6cf819d004eb7f2217ee0feb74, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1749,7 +1851,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1628376053}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 200129199}
+        m_TargetAssemblyTypeName: ProfileMenuManager, Assembly-CSharp
+        m_MethodName: PanelButtons
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Music
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1628376053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1947,7 +2061,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 200129199}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LevelSelectMenu, Assembly-CSharp
         m_MethodName: CloseInfoPanel
         m_Mode: 1
@@ -2636,8 +2750,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 200129199}
-        m_TargetAssemblyTypeName: LevelSelectMenu, Assembly-CSharp
-        m_MethodName: StartLevel
+        m_TargetAssemblyTypeName: ProfileMenuManager, Assembly-CSharp
+        m_MethodName: Save
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2693,3 +2807,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 482543265}
   - {fileID: 1323472952}
+  - {fileID: 560796594}

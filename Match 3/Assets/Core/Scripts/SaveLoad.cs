@@ -40,6 +40,8 @@ public class SaveLoad
         {
             PlayerPrefs.SetInt("Last Level", 2);
             PlayerPrefs.SetInt("Coin", 0);
+            PlayerPrefs.SetFloat("Sound", 1);
+            PlayerPrefs.SetFloat("Music", 1);
             
         }
     }

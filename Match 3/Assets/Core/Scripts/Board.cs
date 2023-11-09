@@ -35,6 +35,10 @@ public class Board : MonoBehaviour
     private void Update()
     {
         // TODO: Shuffle butona baðlanacak bu if bloðu kaldýrýlacak
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ShuffleBoard();
+        }
         
     }
     private void Setup()
