@@ -436,6 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthText: {fileID: 530406888}
+  _coinText: {fileID: 1919342556}
 --- !u!1 &260488795
 GameObject:
   m_ObjectHideFlags: 0

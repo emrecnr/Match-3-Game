@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -42,6 +43,13 @@ public class SaveLoad
             PlayerPrefs.SetInt("Coin", 0);
             PlayerPrefs.SetFloat("Sound", 1);
             PlayerPrefs.SetFloat("Music", 1);
+            PlayerPrefs.SetInt("Bomb", 0);
+            PlayerPrefs.SetInt("Mixer", 0);
+            PlayerPrefs.SetInt("Exchange", 0);
+            PlayerPrefs.SetInt("Milk", 0);
+            PlayerPrefs.SetInt("Heal", 5);
+            
+            //PlayerPrefs.SetString("RewardClaimed",DateTime.Now.ToString());
             
         }
     }

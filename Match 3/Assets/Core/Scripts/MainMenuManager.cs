@@ -8,11 +8,13 @@ public class MainMenuManager : MonoBehaviour
 {
     private SaveLoad _saveLoad = new SaveLoad();
     [SerializeField] private TMP_Text _healthText;
+    [SerializeField] private TMP_Text _coinText;
 
     private void Start()
     {
         _saveLoad.CheckSet();
-        _healthText.text = _saveLoad.LoadInteger("Coin").ToString();
+        _healthText.text = _saveLoad.LoadInteger("Heal").ToString();
+        _coinText.text = _saveLoad.LoadInteger("Coin").ToString();
        
     }
     public void StartGame(string levelToLoad)
