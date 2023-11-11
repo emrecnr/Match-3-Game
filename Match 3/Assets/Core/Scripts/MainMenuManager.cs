@@ -15,43 +15,19 @@ public class MainMenuManager : MonoBehaviour
         _saveLoad.CheckSet();
         _healthText.text = _saveLoad.LoadInteger("Heal").ToString();
         _coinText.text = _saveLoad.LoadInteger("Coin").ToString();
-       
-    }
-    public void StartGame(string levelToLoad)
-    {
-
 
     }
-    public void QuitGame()
-    {
 
-    }
-    public void GoToMapMenu(string levelToLoad)
+    public void StartGame()
     {
-        SceneManager.LoadScene(levelToLoad);
+        int sceneIndex = _saveLoad.LoadInteger("Last Level");
+        SceneManager.LoadScene(sceneIndex);
     }
-    public void GoToProfileMenu(string levelToLoad)
+    public void LoadScene(string value)
     {
-
+        SceneManager.LoadScene(value);
     }
-    public void ButtonProcess(string value)
-    {
-        switch (value)
-        {
-            case "Start Game":
-                int sceneIndex = _saveLoad.LoadInteger("Last Level");
-                SceneManager.LoadScene(sceneIndex);
-                break;
-            case "Level Select Menu":
-            case "Profile Menu":
-            case "Prize Wheel":
-            case "Boosters Menu":
-            case "Scores Menu":
-                SceneManager.LoadScene(value);
-                break;            
-
-        }
-    }
+    
 }
 
 

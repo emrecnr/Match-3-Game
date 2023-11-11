@@ -32,15 +32,7 @@ public class Board : MonoBehaviour
         Setup();
         _matchFinder = FindObjectOfType<MatchFinder>();
     }
-    private void Update()
-    {
-        // TODO: Shuffle butona baðlanacak bu if bloðu kaldýrýlacak
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShuffleBoard();
-        }
-        
-    }
+   
     private void Setup()
     {
         for (int x = 0; x < width; x++)
@@ -78,7 +70,7 @@ public class Board : MonoBehaviour
 
 
 
-    private void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn, bool isBomb = false)
+    public void SpawnCandy(Vector2Int spawnPosition, Candy candyToSpawn, bool isBomb = false)
     {
         if (isBomb)
         {
@@ -118,6 +110,17 @@ public class Board : MonoBehaviour
             if (!_allCandies[position.x, position.y]._destroyEffectList[i].activeInHierarchy)
             {
                 return _allCandies[position.x, position.y]._destroyEffectList[i];
+            }
+        }
+        return null;
+    }
+    public Candy GetPooledAvailableBomb()
+    {
+        for (int i = 0; i < _bombPool.Count; i++)
+        {
+            if (!_bombPool[i].gameObject.activeInHierarchy)
+            {
+                return _bombPool[i];
             }
         }
         return null;
@@ -323,4 +326,6 @@ public class Board : MonoBehaviour
             _uiManager.moveCountText.text = _roundManager.RoundMove.ToString();
         }
     }
+
+
 }

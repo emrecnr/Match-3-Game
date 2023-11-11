@@ -29,4 +29,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level Select Menu.unity
     guid: ae6af07ab0643c840b539c250b038ba3
+  - enabled: 1
+    path: Assets/Scenes/Coins Shop Menu.unity
+    guid: a538253ec2d3c9f46a73bee79bf09704
+  - enabled: 1
+    path: Assets/Scenes/Profile Menu.unity
+    guid: 763fe90f6ac3857439b3e93090a65ab1
+  - enabled: 1
+    path: Assets/Scenes/Boosters Menu.unity
+    guid: b0a2178d6c97dec47bb49c514ffb2db4
+  - enabled: 1
+    path: Assets/Scenes/Lives Menu.unity
+    guid: 5be65b2e881d63646821f8eb33f8f277
   m_configObjects: {}

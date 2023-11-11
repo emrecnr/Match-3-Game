@@ -39,6 +39,7 @@ public class Candy : MonoBehaviour
         }
         else
         {
+            Debug.LogWarning("!!!!!");
             transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
             _board._allCandies[posIndex.x, posIndex.y] = this;
         }

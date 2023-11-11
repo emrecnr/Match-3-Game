@@ -1,49 +1,114 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class BoosterManager : MonoBehaviour
 {
-    [SerializeField] private List<Booster> _boosters;
-    [SerializeField] private TMP_Text[] _priceTexts;
-    [SerializeField] private TMP_Text[] _scoreHealTexts;
+    [SerializeField] private List<InGameBooster> _boosters;
+    [SerializeField] private List<TMP_Text> _boostersText;
+    [SerializeField] private Board _board;
 
     private SaveLoad _saveLoad = new SaveLoad();
 
-    private void Start()
+
+    public void UseBooster(string boostType)
     {
-        SetTexts();
-    }
-    public void BuyBoosters(string boosterName)
-    {
-        int coin = _saveLoad.LoadInteger("Coin");
-        Booster boosterToBuy = _boosters.Find(booster => booster.boosterName == boosterName);
-        if (boosterToBuy != null && coin >=boosterToBuy.boosterPrice)
+        switch (boostType)
         {
-            coin-=boosterToBuy.boosterPrice;
-            _saveLoad.SaveInteger(boosterName, _saveLoad.LoadInteger(boosterName)+1);
+            case "Mixer":                
+                UseMixerBooster(boostType,1);
+                break;
+            case "Bomb":
+                UseBombBooster(boostType,1);
+                break;
+            case "Milk":
+                UseMilkBooster();
+                break;
+            case "Exchange":
+                UseExchangeBooster();
+                break;
+        }
+    }
+    private void UseMixerBooster(string key, int value)
+    {
+        int currentValue = 5;
+        if (currentValue >0)
+        {
+            int usedCurrentValue = currentValue - 1; 
+            Save(key,value);
+            _boostersText[0].text = usedCurrentValue.ToString();
+            _board.ShuffleBoard();
         }
         else
         {
-            //TODO: Coins Shop Menu
+            Debug.Log("Yeterli booster yok");
         }
+
     }
-    private void SetTexts()
+        
+    private void UseMilkBooster()
     {
 
-        for (int i = 0; i < _priceTexts.Length; i++)
-        {
-           
-            _priceTexts[i].text = _boosters[i].boosterPrice.ToString();
-            
-        }
-        _scoreHealTexts[0].text = _saveLoad.LoadInteger("Heal").ToString();
-        _scoreHealTexts[1].text = _saveLoad.LoadInteger("Coin").ToString();
     }
-    public void GoToMenu()
+    private void UseBombBooster(string key, int value)
     {
-        SceneManager.LoadScene(0);
+       List<Candy> candiesToTurnIntoBombs = new List<Candy>();
+        int numberOfCandiesToTurnIntoBomb = 3;
+        
+        while (numberOfCandiesToTurnIntoBomb > 0)
+        {
+            
+            int randomX = Random.Range(0, _board.width);
+            int randomY = Random.Range(0, _board.height);
+
+            Candy candy = _board._allCandies[randomX,randomY];
+            if (candy!=null && !candiesToTurnIntoBombs.Contains(candy)) 
+            {
+                
+                candiesToTurnIntoBombs.Add(candy);
+                numberOfCandiesToTurnIntoBomb--;
+            }
+        }
+        foreach (Candy candy in candiesToTurnIntoBombs)
+        {
+            
+            Vector2Int candyPosition = candy.posIndex;
+            candy.gameObject.SetActive(false);
+            Candy bomb = _board.GetPooledAvailableBomb();
+            if (bomb !=null)
+            {
+
+                _board.SpawnCandy(candyPosition, bomb,true);               
+
+
+            }
+
+        }
+        candiesToTurnIntoBombs.Clear();
+        
+
+
+        //Kayýt
+        int currentValue = 5;
+        if (currentValue > 0)
+        {
+            int usedCurrentValue = currentValue - 1;
+            Save(key, value);
+            _boostersText[1].text = usedCurrentValue.ToString();            
+        }
+        
+
+    }
+    private void UseExchangeBooster()
+    {
+
+    }   
+    private void Save(string key,int value)
+    {
+        Debug.Log(_saveLoad.LoadInteger(key));
+        _saveLoad.SaveInteger(key, _saveLoad.LoadInteger(key) - value);
+        Debug.Log(_saveLoad.LoadInteger(key));
     }
 }
