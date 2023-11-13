@@ -1104,6 +1104,7 @@ MonoBehaviour:
   _rewardManager: {fileID: 200129199}
   _rotatePower: 0
   _stopPower: 0
+  _buttonClick: {fileID: 560796596}
 --- !u!50 &1325144704
 Rigidbody2D:
   serializedVersion: 4
@@ -1367,8 +1368,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 200129199}
-        m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
+      - m_Target: {fileID: 1325144703}
+        m_TargetAssemblyTypeName: PrizeWheelManager, Assembly-CSharp
         m_MethodName: GoToMenu
         m_Mode: 1
         m_Arguments:
@@ -1453,7 +1454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -166, y: 0}
+  m_AnchoredPosition: {x: -200, y: 0}
   m_SizeDelta: {x: 332, y: 139}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1735376785
@@ -1708,7 +1709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 154, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 308, y: 147}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1787764178

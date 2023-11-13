@@ -23,6 +23,7 @@ public class RoundManager : MonoBehaviour
     public int ScoreToThirdStar { get { return _scoreToThirdStar; } set { _scoreToThirdStar = value; } }
 
     [SerializeField]private UIManager _uiManager;
+    [SerializeField]private Board _board;
 
     public static bool isGameOver = false;
 
@@ -33,7 +34,7 @@ public class RoundManager : MonoBehaviour
     [SerializeField]private List<Goals_UI> _goalsUIList = new List<Goals_UI>();
     [SerializeField] private int _goalCount;
     [SerializeField] private int _goalValue;
-    private bool _targetReached = false;
+    private int completedGoal;
     private bool hasGameOverBeenChecked = false;
 
     private void Start()
@@ -45,10 +46,11 @@ public class RoundManager : MonoBehaviour
     }
     private void Update()
     {
-        if (roundTime > 0)
+        if (roundTime > 0 )
         {
+            
             roundTime -= Time.deltaTime;
-            if (roundTime <= 0)
+            if (roundMove <=0)
             {
                 roundTime = 0;
                 isGameOver = true;
@@ -58,9 +60,17 @@ public class RoundManager : MonoBehaviour
         int seconds = Mathf.FloorToInt(roundTime % 60);
         _uiManager.timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         _uiManager.scoreText.text = _currentScore.ToString();
-        if (isGameOver && !hasGameOverBeenChecked)
+        if (isGameOver && !hasGameOverBeenChecked && _board.currentState == Board.BoardState.move)
         {
-            WinCheck(_currentScore);
+            if (completedGoal >=3)
+            {
+                WinCheck(_currentScore);
+            }
+            else
+            {
+                _uiManager.failedPanel.SetActive(true);
+            }
+           
             hasGameOverBeenChecked=true;
         }
     }
@@ -72,7 +82,7 @@ public class RoundManager : MonoBehaviour
     private void WinCheck(int scoreValue)
     {
 
-        //_uiManager.completedPanel.SetActive(true);
+        _uiManager.completedPanel.SetActive(true);
                               
         if (SceneManager.GetActiveScene().buildIndex == _saveLoadSystem.LoadInteger("Last Level"))
         {
@@ -120,6 +130,7 @@ public class RoundManager : MonoBehaviour
                         goal._goalValue = 0;
                         goal.completedImg.color = Color.green;
                         goal.isDone = true;
+                        completedGoal++;
 
                     }                    
                 }

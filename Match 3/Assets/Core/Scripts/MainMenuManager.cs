@@ -9,6 +9,7 @@ public class MainMenuManager : MonoBehaviour
     private SaveLoad _saveLoad = new SaveLoad();
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _coinText;
+    [SerializeField] private AudioSource _buttonClick;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void LoadScene(string value)
     {
+        _buttonClick.Play();
         SceneManager.LoadScene(value);
     }
     

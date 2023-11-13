@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,8 +18,7 @@ public class ProfileMenuManager : MonoBehaviour
 
     private void Start()
     {
-        //_saveLoad.SaveFloat("Sound", 0);
-        //_saveLoad.SaveFloat("Music", 0);
+
         _volumes[0] = _saveLoad.LoadFloat("Sound");
         _volumes[1] = _saveLoad.LoadFloat("Music");
 
@@ -34,13 +34,13 @@ public class ProfileMenuManager : MonoBehaviour
             Debug.Log(_volumes[i]);
         }
 
-        _buttonAudio.volume = _volumes[0];
-
     }
     public void PanelButtons(string button)
     {
+        _buttonAudio.Play();    
         switch (button)
         {
+            
             case "Save":
                 Save();
                 break;
@@ -55,6 +55,7 @@ public class ProfileMenuManager : MonoBehaviour
                 break;
         }
     }
+
     private void ToggleButtonState(int buttonIndex)
     {
         if (buttonIndex >= 0 && buttonIndex < _panelButtons.Length)

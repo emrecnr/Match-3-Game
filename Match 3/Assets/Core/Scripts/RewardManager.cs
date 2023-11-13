@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -93,10 +94,7 @@ public class RewardManager : MonoBehaviour
         }
        
     }
-    public void GoToMenu()
-    {
-        SceneManager.LoadScene("Main Menu");
-    }
+
     public void ButtonInteractable(bool state)
     {
         if (state)

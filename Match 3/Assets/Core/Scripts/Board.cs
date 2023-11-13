@@ -11,7 +11,7 @@ public class Board : MonoBehaviour
     public int height;
     [SerializeField] private List<GameObject> _bgTilePool = new List<GameObject>();
 
-    [SerializeField] private Candy[] _candies;
+
     [SerializeField] private List<Candy> _candyPool;
     [SerializeField] private List<Candy> _bombPool;
     public Candy[,] _allCandies;
@@ -26,13 +26,16 @@ public class Board : MonoBehaviour
     public BoardState currentState = BoardState.move;
     public Candy _bomb;
     public float bombChance = 2f;
+
+
+
     private void Start()
     {
         _allCandies = new Candy[width, height];
         Setup();
         _matchFinder = FindObjectOfType<MatchFinder>();
     }
-   
+
     private void Setup()
     {
         for (int x = 0; x < width; x++)
@@ -41,6 +44,7 @@ public class Board : MonoBehaviour
             {
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = GetPooledBgTile();
+
                 SpawnTile(bgTile, pos);
                 int candyToUse = Random.Range(0, _candyPool.Count);//
 
@@ -82,13 +86,18 @@ public class Board : MonoBehaviour
         {
             if (candyToSpawn != null && _candyPool.Contains(candyToSpawn))
             {
+
+
                 _candyPool.Remove(candyToSpawn);
                 candyToSpawn.name = "Candy - " + spawnPosition.x + ", " + spawnPosition.y;
+
+
             }
         }
         candyToSpawn.transform.position = new Vector3(spawnPosition.x, spawnPosition.y + height, 0f);
         candyToSpawn.gameObject.SetActive(true);
         _allCandies[spawnPosition.x, spawnPosition.y] = candyToSpawn;
+
         candyToSpawn.SetupCandy(spawnPosition, this);
     }
     private GameObject GetPooledBgTile()
@@ -114,6 +123,7 @@ public class Board : MonoBehaviour
         }
         return null;
     }
+
     public Candy GetPooledAvailableBomb()
     {
         for (int i = 0; i < _bombPool.Count; i++)
@@ -156,11 +166,23 @@ public class Board : MonoBehaviour
                 {
                     effect.transform.position = new Vector3(position.x, position.y, 0);
                     effect.SetActive(true);
-                    _candyPool.Add(_allCandies[position.x, position.y]);
+                    effect.GetComponent<ParticleSystem>().Play();
+
+                    if (_allCandies[position.x, position.y].type != Candy.CandyType.bomb)
+                    {
+                        _candyPool.Add(_allCandies[position.x, position.y]);
+                        print("Bomb");
+                    }
                     //Þeker nesnesini devre dýþý býrak
                     _allCandies[position.x, position.y].gameObject.SetActive(false);
-                    // _allCandies dizisindeki referansý temizle
                     _allCandies[position.x, position.y] = null;
+                    // _allCandies dizisindeki referansý temizle
+
+
+                }
+                else
+                {
+                    Debug.Log("Hata");
                 }
                 // Þeker nesnesini havuza geri ekle
 
@@ -231,16 +253,10 @@ public class Board : MonoBehaviour
                 if (_allCandies[x, y] == null)
                 {
 
-                    if (Random.Range(0, 100f) < bombChance)
-                    {
-                        int bombToUse = Random.Range(0, _bombPool.Count);//
-                        SpawnCandy(new Vector2Int(x, y), _bombPool[bombToUse], true);
-                    }
-                    else
-                    {
-                        int candyToUse = Random.Range(0, _candyPool.Count);
-                        SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse], false);
-                    }
+
+                    int candyToUse = Random.Range(0, _candyPool.Count);
+                    SpawnCandy(new Vector2Int(x, y), _candyPool[candyToUse], false);
+
                 }
 
             }

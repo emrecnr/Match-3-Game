@@ -33,6 +33,7 @@ public class Candy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Vector2.Distance(transform.position, posIndex) > .01f)
         {
             transform.position = Vector2.Lerp(transform.position, posIndex, _board.candySpeed * Time.deltaTime);
@@ -59,6 +60,11 @@ public class Candy : MonoBehaviour
         posIndex = position;
         _board = board;
     }
+    private void OnEnable()
+    {
+        isMatched = false;
+        
+    }
 
     private void OnMouseDown()
     {
@@ -66,15 +72,34 @@ public class Candy : MonoBehaviour
         {
             firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // ilk dokunmayi World Pos donustur
             _mousePressed = true;
+
         }
-
+        if (_board.currentState == Board.BoardState.wait && !RoundManager.isGameOver /*&& BoosterManager.isSwitcherBoostUsed*/)
+        {
+            if (BoosterManager.selectedCandy1 == null)
+            {
+                BoosterManager.selectedCandy1 = this;
+                GetComponent<Animator>().SetBool("isSelected", true);
+                
+                Debug.Log(BoosterManager.selectedCandy1);
+                
+            }
+            else if(BoosterManager.selectedCandy2 == null)
+            {
+                BoosterManager.selectedCandy2 = this;
+                GetComponent<Animator>().SetBool("isSelected", true);
+                Debug.Log(BoosterManager.selectedCandy2);
+            }
+           
+             
+        } 
     }
-
+   
     private void CalculateAngle()
     {
         _swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
         _swipeAngle = _swipeAngle * 180 / Mathf.PI;
-        Debug.Log(_swipeAngle);
+        
 
         if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
         {

@@ -11,7 +11,7 @@ public class PrizeWheelManager : MonoBehaviour
     [SerializeField] private RewardManager _rewardManager;
     [SerializeField] private float _rotatePower;
     [SerializeField] private float _stopPower;
-   
+    [SerializeField] private AudioSource _buttonClick;
     private float t;
     private Rigidbody2D _rigidBody;
     int inRotate;
@@ -101,8 +101,14 @@ public class PrizeWheelManager : MonoBehaviour
             _rewardManager.ClaimReward("Bomb");
         }
     }
+    public void GoToMenu()
+    {
+        _buttonClick.Play();
+        SceneManager.LoadScene("Main Menu");
+    }
     public void Rotate()
     {
+        _buttonClick.Play();
         _rotatePower = Random.Range(1000, 5000);
         _stopPower = Random.Range(100, 600);
         if (inRotate == 0)

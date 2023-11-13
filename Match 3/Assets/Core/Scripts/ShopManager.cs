@@ -17,6 +17,7 @@ public class ShopManager : MonoBehaviour,IStoreListener
     [SerializeField] private List<Coins> coins;
     [SerializeField] private TMP_Text[] _priceTexts;
     [SerializeField] private TMP_Text[] _scoreHealTexts;
+    [SerializeField] private AudioSource _audioSource;
 
     private SaveLoad _saveLoad = new SaveLoad();
 
