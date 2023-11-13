@@ -21,12 +21,16 @@ public class LevelSelectMenu : MonoBehaviour
     [SerializeField] private GameObject _infoPanel;
     [SerializeField] private GameObject[] _infoPanelImg;
     public List<LevelSelectUI> levelGoalInfo = new List<LevelSelectUI>();
+
+    [SerializeField] private TMP_Text[] healCoinText;
     
 
     private void Start()
     {
+        healCoinText[0].text  = _saveLoad.LoadInteger("Heal").ToString();
+        healCoinText[1].text  = _saveLoad.LoadInteger("Coin").ToString();
         
-        int currentLevel = _saveLoad.LoadInteger("Last Level") - 1;
+        int currentLevel = _saveLoad.LoadInteger("Last Level") ;
 
         for (int i = 0; i < _buttons.Length; i++)
         {

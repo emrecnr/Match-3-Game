@@ -50,9 +50,9 @@ public class RoundManager : MonoBehaviour
         {
             
             roundTime -= Time.deltaTime;
-            if (roundMove <=0)
+            if (roundMove <= 0 && _board.currentState == Board.BoardState.move)
             {
-                roundTime = 0;
+               // roundTime = 0;
                 isGameOver = true;
             }
         }
@@ -62,7 +62,7 @@ public class RoundManager : MonoBehaviour
         _uiManager.scoreText.text = _currentScore.ToString();
         if (isGameOver && !hasGameOverBeenChecked && _board.currentState == Board.BoardState.move)
         {
-            if (completedGoal >=3)
+            if (completedGoal == _goalCount)
             {
                 WinCheck(_currentScore);
             }
@@ -90,21 +90,21 @@ public class RoundManager : MonoBehaviour
         }
         
 
-        if (scoreValue >= _scoreToThirdStar)
-        {
-
-           _saveLoadSystem.SaveInteger(SceneManager.GetActiveScene().name + "_Star", 3);
-        }
-        if (scoreValue >= _scoreToSecondStar)
-        {
-            _saveLoadSystem.SaveInteger(SceneManager.GetActiveScene().name + "_Star", 2);
-        }
-
         if (scoreValue >= _scoreToFirstStar)
         {
             _saveLoadSystem.SaveInteger(SceneManager.GetActiveScene().name + "_Star", 1);
 
         }
+        if (scoreValue >= _scoreToSecondStar)
+        {
+            _saveLoadSystem.SaveInteger(SceneManager.GetActiveScene().name + "_Star", 2);
+        }
+        if (scoreValue >= _scoreToThirdStar)
+        {
+
+           _saveLoadSystem.SaveInteger(SceneManager.GetActiveScene().name + "_Star", 3);
+        }
+
     }
     private void StartGoalProcesses()
     {
@@ -131,6 +131,7 @@ public class RoundManager : MonoBehaviour
                         goal.completedImg.color = Color.green;
                         goal.isDone = true;
                         completedGoal++;
+                        Debug.Log(completedGoal);
 
                     }                    
                 }
@@ -142,6 +143,11 @@ public class RoundManager : MonoBehaviour
                 }
             }
         }
+    }
+    public void GoToMenu()
+    {
+        isGameOver = false;
+        SceneManager.LoadScene("Main Menu");
     }
     
 }

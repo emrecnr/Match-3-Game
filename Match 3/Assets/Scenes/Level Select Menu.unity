@@ -1129,15 +1129,18 @@ MonoBehaviour:
     - {fileID: 21300000, guid: fb922273ed3a170458ead0dda1e782f4, type: 3}
   - whichLevel: Level 2
     _goals: 3
-    _goalValue: 01000000050000000b000000
+    _goalValue: 0a0000000f00000014000000
     _goalSprite:
-    - {fileID: 21300000, guid: 3d658007b31c6464da802023f739acd6, type: 3}
-    - {fileID: 21300000, guid: fc59f6e7b57802440ab83e22ef93b19e, type: 3}
-    - {fileID: 21300000, guid: 56a8dc9441042aa46bc7cfe7e0099583, type: 3}
+    - {fileID: 21300000, guid: abfbf6345806b0f499c5594bd0fe8fc8, type: 3}
+    - {fileID: 21300000, guid: fb922273ed3a170458ead0dda1e782f4, type: 3}
+    - {fileID: 21300000, guid: b84a951d423ac2e45965b4a0f63574dc, type: 3}
   - whichLevel: Level  3
     _goals: 0
     _goalValue: 
     _goalSprite: []
+  healCoinText:
+  - {fileID: 530406888}
+  - {fileID: 1919342556}
 --- !u!1 &275570054
 GameObject:
   m_ObjectHideFlags: 0

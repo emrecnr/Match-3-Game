@@ -39,7 +39,7 @@ public class SaveLoad
     {
         if (!PlayerPrefs.HasKey("Last Level"))
         {
-            PlayerPrefs.SetInt("Last Level", 2);
+            PlayerPrefs.SetInt("Last Level", 1);
             PlayerPrefs.SetInt("Coin", 0);
             PlayerPrefs.SetFloat("Sound", 1);
             PlayerPrefs.SetFloat("Music", 1);
